@@ -1,6 +1,6 @@
 Name:          authselect
 Version:       1.0.1
-Release:       4
+Release:       5
 Summary:       A tool to select system authentication and identity sources from a list of supported profiles
 License:       GPLv3+
 URL:           https://github.com/pbrezina/authselect
@@ -62,11 +62,6 @@ autoreconf -ivf
 %install
 %make_install
 
-%find_lang %{name}
-%find_lang %{name} %{name}.8.lang --with-man
-%find_lang %{name}-migration %{name}-migration.7.lang --with-man
-%find_lang %{name}-profiles %{name}-profiles.5.lang --with-man
-
 %delete_la_and_a
 
 %check
@@ -109,6 +104,9 @@ sed -i -E '/^\w+=$/d' %{_sysconfdir}/security/pwquality.conf.d/10-authconfig-pwq
 exit 0
 
 %changelog
+* Tue Nov 5 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.0.1-5
+- Delete unused lang files
+
 * Mon Sep 30 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.0.1-4
 - Fix conflict of authselect and authconfig
 
