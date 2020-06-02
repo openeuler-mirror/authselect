@@ -8,6 +8,7 @@ Source0:       https://github.com/pbrezina/authselect/archive/1.1/authselect-1.1
 
 BuildRequires: autoconf gettext-devel automake libtool popt-devel gdb libcmocka-devel
 BuildRequires: m4 gcc pkgconfig pkgconfig(popt) po4a asciidoc python3-devel
+BuildRequires: libselinux-devel
 Requires:      grep sed systemd gawk coreutils findutils
 Obsoletes:     authselect-libs
 Provides:      authselect-libs
