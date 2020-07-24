@@ -1,15 +1,15 @@
 Name:          authselect
-Version:       1.1
-Release:	0
+Version:       1.2.1
+Release:       1
 Summary:       A tool to select system authentication and identity sources from a list of supported profiles
 License:       GPLv3+
-URL:           https://github.com/pbrezina/authselect
-Source0:       https://github.com/pbrezina/authselect/archive/1.1/authselect-1.1.tar.gz
+URL:           https://github.com/authselect/authselect
+Source0:       https://github.com/authselect/authselect/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires: autoconf gettext-devel automake libtool popt-devel gdb libcmocka-devel
 BuildRequires: m4 gcc pkgconfig pkgconfig(popt) po4a asciidoc python3-devel
 BuildRequires: libselinux-devel
-Requires:      grep sed systemd gawk coreutils findutils
+Requires:      grep sed systemd gawk coreutils findutils pam >= 1.3.1
 Obsoletes:     authselect-libs
 Provides:      authselect-libs
 
@@ -106,6 +106,9 @@ sed -i -E '/^\w+=$/d' %{_sysconfdir}/security/pwquality.conf.d/10-authconfig-pwq
 exit 0
 
 %changelog
+* Fri Jul 24 2020 Liquor <lirui130@huawei.com> - 1.2.1-1
+- update to 1.2.1
+
 * Tue Jun 02 2020 SimpleUpdate Robot <tc@openeuler.org>
 - Update to version 1.1
 
