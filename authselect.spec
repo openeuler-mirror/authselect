@@ -1,14 +1,15 @@
 Name:          authselect
-Version:       1.0.1
-Release:       5
+Version:       1.2.1
+Release:       1
 Summary:       A tool to select system authentication and identity sources from a list of supported profiles
 License:       GPLv3+
-URL:           https://github.com/pbrezina/authselect
-Source0:       https://github.com/pbrezina/authselect/archive/1.0.1/authselect-1.0.1.tar.gz
+URL:           https://github.com/authselect/authselect
+Source0:       https://github.com/authselect/authselect/archive/%{version}/%{name}-%{version}.tar.gz
 
 BuildRequires: autoconf gettext-devel automake libtool popt-devel gdb libcmocka-devel
 BuildRequires: m4 gcc pkgconfig pkgconfig(popt) po4a asciidoc python3-devel
-Requires:      grep sed systemd gawk coreutils findutils
+BuildRequires: libselinux-devel
+Requires:      grep sed systemd gawk coreutils findutils pam >= 1.3.1
 Obsoletes:     authselect-libs
 Provides:      authselect-libs
 
@@ -80,6 +81,7 @@ autoreconf -ivf
 %license COPYING
 %{_bindir}/authselect
 %doc README.md
+%{_sysconfdir}/bash_completion.d/*
 %{_datadir}/authselect/default/*
 %{_datadir}/locale/*
 %{_libdir}/libauthselect.so.1*
@@ -104,6 +106,9 @@ sed -i -E '/^\w+=$/d' %{_sysconfdir}/security/pwquality.conf.d/10-authconfig-pwq
 exit 0
 
 %changelog
+* Fri Aug 28 2020 wangchen <wangchen137@huawei.com> - 1.2.1-1
+- Update to 1.2.1
+
 * Tue Nov 5 2019 openEuler Buildteam <buildteam@openeuler.org> - 1.0.1-5
 - Delete unused lang files
 
