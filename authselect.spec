@@ -1,6 +1,6 @@
 Name:          authselect
 Version:       1.2.2
-Release:       1
+Release:       2
 Summary:       A tool to select system authentication and identity sources from a list of supported profiles
 License:       GPLv3+
 URL:           https://github.com/authselect/authselect
@@ -8,7 +8,7 @@ Source0:       https://github.com/authselect/authselect/archive/%{version}/%{nam
 
 BuildRequires: autoconf gettext-devel automake libtool popt-devel gdb libcmocka-devel
 BuildRequires: m4 gcc pkgconfig pkgconfig(popt) po4a asciidoc python3-devel
-BuildRequires: libselinux-devel authselect
+BuildRequires: libselinux-devel
 Requires:      grep sed systemd gawk coreutils findutils pam >= 1.3.1
 Obsoletes:     authselect-libs
 Provides:      authselect-libs
@@ -63,8 +63,6 @@ autoreconf -ivf
 %install
 %make_install
 
-cp -a %{_libdir}/libauthselect.so.1* %{buildroot}%{_libdir}
-
 %delete_la_and_a
 
 %check
@@ -86,7 +84,6 @@ cp -a %{_libdir}/libauthselect.so.1* %{buildroot}%{_libdir}
 %{_sysconfdir}/bash_completion.d/*
 %{_datadir}/authselect/default/*
 %{_datadir}/locale/*
-%{_libdir}/libauthselect.so.1*
 %{_libdir}/libauthselect.so.3*
 
 %files devel
@@ -109,6 +106,9 @@ sed -i -E '/^\w+=$/d' %{_sysconfdir}/security/pwquality.conf.d/10-authconfig-pwq
 exit 0
 
 %changelog
+* Thu Mar 25 2021 yangzhuangzhuang <yangzhuangzhuang1@huawei.com> - 1.2.2-2
+- Deletei the DLL of an earlier version
+
 * Sat Jan 23 2021 yangzhuangzhuang <yangzhuangzhuang1@huawei.com> - 1.2.2-1
 - update to 1.2.2
 
