@@ -1,10 +1,12 @@
 Name:          authselect
 Version:       1.2.4
-Release:       1
+Release:       2
 Summary:       A tool to select system authentication and identity sources from a list of supported profiles
 License:       GPLv3+
 URL:           https://github.com/authselect/authselect
 Source0:       https://github.com/authselect/authselect/archive/%{version}/%{name}-%{version}.tar.gz
+
+Patch0:        authselect-revert-remove-authselect-compat-package.patch
 
 BuildRequires: autoconf gettext-devel automake libtool popt-devel libcmocka-devel
 BuildRequires: m4 gcc pkgconfig pkgconfig(popt) po4a asciidoc python3-devel
@@ -12,9 +14,6 @@ BuildRequires: libselinux-devel
 Requires:      grep sed systemd gawk coreutils findutils pam >= 1.3.1
 Obsoletes:     authselect-libs
 Provides:      authselect-libs
-
-Obsoletes:     authselect-compat < 1.2.4
-Obsoletes:     authconfig < 7.0.1-6
 
 %description
 Authselect is designed to be a replacement for authconfig (which is the default tool for this 
@@ -32,6 +31,20 @@ authconfig calls into authselect calls. It provides only minimum backward compat
 users are encouraged to migrate to authselect completely.
 
 %package_help
+
+%package compat
+Summary:       Tool to provide minimum backwards compatibility with authconfig
+Obsoletes:     authconfig < 7.0.1-6
+Provides:      authconfig
+BuildRequires: python3-devel
+Requires:      authselect%{?_isa} = %{version}-%{release}
+Requires:      sed
+
+%description compat
+This package will replace %{_sbindir}/authconfig with a tool that will
+translate some of the authconfig calls into authselect calls. It provides
+only minimum backward compatibility and users are encouraged to migrate
+to authselect completely.
 
 %package devel
 Summary:       Development library files and header files for the authselect tool
@@ -81,12 +94,23 @@ autoreconf -ivf
 %{_libdir}/libauthselect.so
 %{_libdir}/pkgconfig/authselect.pc
 
+%files compat
+%{_sbindir}/authconfig
+%{python3_sitelib}/authselect/
+
 %files help
 %defattr(-,root,root)
 %{_datadir}/doc/authselect/*
 %{_mandir}/*
 
+%posttrans compat
+sed -i -E '/^\w+=$/d' %{_sysconfdir}/security/pwquality.conf.d/10-authconfig-pwquality.conf &> /dev/null
+exit 0
+
 %changelog
+* Fri Jan 14 2021 yixiangzhike <yixiangzhike007@163.com> - 1.2.4-2
+- revert "remove authselect compat package"
+
 * Tue Nov 30 2021 yixiangzhike <yixiangzhike007@163.com> - 1.2.4-1
 - update to 1.2.4
 
