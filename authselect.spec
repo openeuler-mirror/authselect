@@ -1,6 +1,6 @@
 Name:          authselect
 Version:       1.2.4
-Release:       3
+Release:       4
 Summary:       A tool to select system authentication and identity sources from a list of supported profiles
 License:       GPLv3+
 URL:           https://github.com/authselect/authselect
@@ -101,6 +101,7 @@ autoreconf -ivf
 %files help
 %defattr(-,root,root)
 %{_datadir}/doc/authselect/*
+%exclude %{_datadir}/doc/authselect/README.md
 %{_mandir}/*
 
 %posttrans compat
@@ -108,6 +109,9 @@ sed -i -E '/^\w+=$/d' %{_sysconfdir}/security/pwquality.conf.d/10-authconfig-pwq
 exit 0
 
 %changelog
+* Fri Apr 29 2022 yixiangzhike <yixiangzhike007@163.com> - 1.2.4-4
+- delete duplicate file README.md from authselect-help
+
 * Mon Mar 21 2022 yixiangzhike <yixiangzhike007@163.com> - 1.2.4-3
 - fix change date for version 1.2.4-2 in changelog
 
