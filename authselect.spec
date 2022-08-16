@@ -1,12 +1,14 @@
 Name:          authselect
 Version:       1.2.4
-Release:       5
+Release:       6
 Summary:       A tool to select system authentication and identity sources from a list of supported profiles
 License:       GPLv3+
 URL:           https://github.com/authselect/authselect
 Source0:       https://github.com/authselect/authselect/archive/%{version}/%{name}-%{version}.tar.gz
 
 Patch0:        authselect-revert-remove-authselect-compat-package.patch
+Patch1:        backport-main-Drop-an-unnecessary-NULL-check-before-free.patch
+Patch2:        backport-cli-fix-memory-handling-with-new-popt-library.patch
 
 BuildRequires: autoconf gettext-devel automake libtool popt-devel libcmocka-devel
 BuildRequires: m4 gcc pkgconfig pkgconfig(popt) po4a asciidoc python3-devel
@@ -111,6 +113,9 @@ sed -i -E '/^\w+=$/d' %{_sysconfdir}/security/pwquality.conf.d/10-authconfig-pwq
 exit 0
 
 %changelog
+* Mon Aug 15 2022 panxiaohe <panxh.life@foxmail.com> - 1.2.4-6
+- cli: fix memory handling with new popt library
+
 * Sun May 15 2022 yixiangzhike <yixiangzhike007@163.com> - 1.2.4-5
 - provide default directory /etc/authselect
 
