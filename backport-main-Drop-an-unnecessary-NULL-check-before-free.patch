@@ -1,0 +1,36 @@
+From 46386b75fb90ce91ede80093ce73e99fde53ba3b Mon Sep 17 00:00:00 2001
+From: Colin Walters <walters@verbum.org>
+Date: Tue, 4 Jan 2022 18:33:30 -0500
+Subject: [PATCH] main: Drop an unnecessary `NULL` check before `free()`
+
+From `man free()`:
+
+```
+The free() function frees the memory space pointed to by ptr ...  If ptr is NULL, no operation is performed.
+```
+
+Obviously there are *tons* of these in the codebase; just doing
+this one as a preliminary PR; if accepted I may do some more, or
+others can.  Or we could try a coccinelle semantic patch.
+---
+ src/cli/main.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/src/cli/main.c b/src/cli/main.c
+index 4b8ab85..575e56f 100644
+--- a/src/cli/main.c
++++ b/src/cli/main.c
+@@ -231,9 +231,7 @@ done:
+     free(requirements);
+     authselect_array_free(maps);
+     authselect_profile_free(profile);
+-    if (features != NULL) {
+-        free(features);
+-    }
++    free(features);
+ 
+     return ret;
+ }
+-- 
+2.27.0
+
