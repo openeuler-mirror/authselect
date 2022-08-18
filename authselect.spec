@@ -1,13 +1,11 @@
 Name:          authselect
-Version:       1.2.4
-Release:       6
+Version:       1.4.0
+Release:       1
 Summary:       A tool to select system authentication and identity sources from a list of supported profiles
 License:       GPLv3+
 URL:           https://github.com/authselect/authselect
 Source0:       https://github.com/authselect/authselect/archive/%{version}/%{name}-%{version}.tar.gz
 
-Patch0:        authselect-revert-remove-authselect-compat-package.patch
-Patch1:        backport-main-Drop-an-unnecessary-NULL-check-before-free.patch
 Patch2:        backport-cli-fix-memory-handling-with-new-popt-library.patch
 
 BuildRequires: autoconf gettext-devel automake libtool popt-devel libcmocka-devel
@@ -61,7 +59,7 @@ package is used to develop a front-end for the authselect library.
 
 %build
 autoreconf -ivf
-%configure
+%configure --with-pythonbin="%{__python3}" --with-compat
 %make_build
 
 %install
@@ -113,6 +111,9 @@ sed -i -E '/^\w+=$/d' %{_sysconfdir}/security/pwquality.conf.d/10-authconfig-pwq
 exit 0
 
 %changelog
+* Wed Aug 18 2022 YukariChiba <i@0x7f.cc> - 1.4.0-1
+- Upgrade version to 1.4.0
+
 * Mon Aug 15 2022 panxiaohe <panxh.life@foxmail.com> - 1.2.4-6
 - cli: fix memory handling with new popt library
 
